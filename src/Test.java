@@ -7,5 +7,6 @@ public class Test {
         String username = in.next();
         System.out.println("请输入密码");
         String password = in.next();
+
     }
 }
