@@ -18,10 +18,7 @@ class ReadExcel{
            var row: XSSFRow = xs.getRow(i)
             var user:User = User()
             for (j in 0..row.lastCellNum){
-                var cell: XSSFCell = row.getCell(j)
-                if (cell == null){
-                    continue
-                }
+                val cell = row.getCell(j) ?: continue
                 if (j == 0) {
                     user.setUsername(this.getValue(cell));//给username属性赋值
                 } else if (j == 1) {
