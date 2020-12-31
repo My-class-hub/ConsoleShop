@@ -2,38 +2,42 @@ package ReadExcel
 import User
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.xssf.usermodel.XSSFCell
-import org.apache.poi.xssf.usermodel.XSSFRow
-import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
 import java.io.FileInputStream
+import java.io.IOException
 
 class ReadExcel{
-    fun readExcel(file: File):Array<User>?{
-        var users:Array<User> ?= null
-        var xw:XSSFWorkbook = XSSFWorkbook(FileInputStream(file))
-        var xs:XSSFSheet = xw.getSheetAt(0);
-
-        for (i in 1..xs.lastRowNum){
-           var row: XSSFRow = xs.getRow(i)
-            var user:User = User()
-            for (j in 0..row.lastCellNum){
-                val cell = row.getCell(j) ?: continue
-                if (j == 0) {
-                    user.setUsername(this.getValue(cell));//给username属性赋值
-                } else if (j == 1) {
-                    user.setPassword(this.getValue(cell));//给password属性赋值
-                } else if (j == 2) {
-                    user.setAddress(this.getValue(cell));//给address属性赋值
-                } else if (j == 3) {
-                    user.setPhone(this.getValue(cell));//给phone属性赋值
+    fun readExcel(file: File?): Array<User?>? {
+        var users: Array<User?>? = null
+        try {
+            val xw = XSSFWorkbook(FileInputStream(file))
+            val xs = xw.getSheetAt(0)
+            users = arrayOfNulls(xs.lastRowNum)
+            for (j in 1..xs.lastRowNum) {
+                val row = xs.getRow(j)
+                val user = User() //每循环一次就把电子表格的一行的数据给对象赋值
+                for (k in 0..row.lastCellNum) {
+                    val cell = row.getCell(k) ?: continue
+                    if (k == 0) {
+                        user.username = this.getValue(cell) //给username属性赋值
+                    } else if (k == 1) {
+                        user.password = this.getValue(cell) //给password属性赋值
+                    } else if (k == 2) {
+                        user.address = this.getValue(cell) //给address属性赋值
+                    } else if (k == 3) {
+                        user.phone = this.getValue(cell) //给phone属性赋值
+                    }
                 }
+                users[j - 1] = user
             }
-            users?.plus(user)
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
         return users
     }
-    fun getValue(cell:XSSFCell):String{
+
+    fun getValue(cell: XSSFCell):String{
         val value: String
         val type = cell.cellTypeEnum
 
