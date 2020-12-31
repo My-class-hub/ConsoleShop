@@ -2,17 +2,20 @@ package ReadExcel
 import User
 import org.apache.poi.ss.usermodel.CellType
 import org.apache.poi.xssf.usermodel.XSSFCell
+import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
-import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import java.text.DecimalFormat
 
 class ReadExcel{
-    fun readExcel(file: File?): Array<User?>? {
+    fun readExcel(inputStream: FileInputStream?): Array<User?>? {
         var users: Array<User?>? = null
+        var xw: XSSFWorkbook? = null
+        var xs: XSSFSheet? = null
         try {
-            val xw = XSSFWorkbook(FileInputStream(file))
-            val xs = xw.getSheetAt(0)
+            xw = XSSFWorkbook(inputStream)
+            xs = xw.getSheetAt(0)
             users = arrayOfNulls(xs.lastRowNum)
             for (j in 1..xs.lastRowNum) {
                 val row = xs.getRow(j)
@@ -45,7 +48,7 @@ class ReadExcel{
             CellType.STRING -> cell.stringCellValue
             CellType.BLANK -> ""
             CellType.BOOLEAN -> cell.booleanCellValue.toString() + ""
-            CellType.NUMERIC -> cell.numericCellValue.toString() + ""
+            CellType.NUMERIC -> DecimalFormat("#").format(cell.numericCellValue)
             CellType.FORMULA -> cell.cellFormula
             CellType.ERROR -> "非法字符"
             else -> ""
