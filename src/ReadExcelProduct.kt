@@ -39,6 +39,28 @@ class ReadExcelToProduct(){
         }
         return products
     }
+    fun productById(id:String,inputStream: InputStream?):Product?{
+        var xw : XSSFWorkbook? = null
+        xw = XSSFWorkbook(inputStream)
+        var xs = xw.getSheetAt(0)
+        for (i in 1..xs.lastRowNum){
+            val row = xs.getRow(i)
+            val product = Product()
+            for (j in 0..row.lastCellNum){
+                val cell = row.getCell(j) ?: continue
+                when(j){
+                    0 -> product.id = this.getValue(cell)
+                    1 -> product.name = this.getValue(cell)
+                    2 -> product.price = this.getValue(cell)?.toFloat()
+                    3 -> product.desc = this.getValue(cell)
+                }
+            }
+            if (product.id == id){
+                return product
+            }
+        }
+        return null
+    }
     private fun getValue(cell:XSSFCell): String? {
         var value : String ?= null
         var type = cell.cellType
