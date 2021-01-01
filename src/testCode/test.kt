@@ -1,4 +1,4 @@
-package hello
+package testCode
 fun main(args:Array<String>){
     println("sssss")
     Cat("白猫").eat()

@@ -6,10 +6,11 @@ import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.FileInputStream
 import java.io.IOException
+import java.io.InputStream
 import java.text.DecimalFormat
 
-class ReadExcel{
-    fun readExcel(inputStream: FileInputStream?): Array<User?>? {
+class ReadExcelToUser{
+    fun readExcel(inputStream: InputStream?): Array<User?>? {
         var users: Array<User?>? = null
         var xw: XSSFWorkbook? = null
         var xs: XSSFSheet? = null
@@ -42,7 +43,7 @@ class ReadExcel{
 
     fun getValue(cell: XSSFCell):String{
         val value: String
-        val type = cell.cellTypeEnum
+        val type = cell.cellType
 
         value = when (type) {
             CellType.STRING -> cell.stringCellValue
