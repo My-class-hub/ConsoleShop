@@ -39,7 +39,7 @@ class ReadExcelToProduct(){
         }
         return products
     }
-    fun getValue(cell:XSSFCell): String? {
+    private fun getValue(cell:XSSFCell): String? {
         var value : String ?= null
         var type = cell.cellType
         value = when(type){
