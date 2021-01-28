@@ -44,6 +44,9 @@ public class Test {
                      */
                     int count = 0;
                     Product[] productCart = new Product[3];
+                    /*
+                    购物或者查看
+                     */
                     while (true){
                         if (productCart[productCart.length-1] != null){
                             break;
@@ -71,7 +74,7 @@ public class Test {
         ReadExcelToProduct readExcelToProduct = new ReadExcelToProduct();
         System.out.println(productFile);
         productFile = null;
-        productFile = Class.forName("Test").getResourceAsStream("/product.xlsx");
+        productFile = Class.forName("Test").getResourceAsStream("/product.xlsx");//inputStream尽量实现复用
         Product product = readExcelToProduct.productById(id, productFile);
         productCart[count] = product;
     }
